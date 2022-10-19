@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="UTF-8">
+    <title> Jogo Da Forca </title>
+
+    <style>
+
+        @font-face {
+            font-family: StarJedi;
+            src: url("Jogo da Força/Starjedi.ttf");
+        }
+        body{
+            background-color: #0e0e13;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        h1 {
+            color: #e6b93c;
+            font-family: StarJedi;
+        }
+
+        button{
+            background-color: #4894c3;
+            color:white;
+            border: 0;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor:pointer;
+        }
+
+        img {
+            width: 300px;
+        }
+
+        .darth-vader{
+            width: 300px;
+        }
+
+        .palavra{
+            color: #e6b93c;
+            font-size: 30px;
+
+        }
+
+        .letra{
+            border: 1px solid #e6b93c;
+        }
+
+        .boneco {
+             width: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+             align-items: center;
+
+            position: relative;
+    }
+
+         .darth-vader {
+            width: 300px;
+      }
+
+        .cabeca {
+          background: #0e0e13;
+          width: 300px;
+          height: 120px;
+
+          position: absolute;
+          top: 0;
+     }
+
+        .braco-esquerdo {
+        background: #0e0e13;
+        width: 100px;
+        height: 160px;
+
+        position: absolute;
+        left: 0;
+        }
+
+    .torso {
+      background: #0e0e13;
+      width: 100px;
+      height: 160px;
+
+      position: absolute;
+      left: 100px;
+    }
+
+    .braco-direito {
+      background: #0e0e13;
+      width: 100px;
+      height: 160px;
+
+      position: absolute;
+      right: 0;
+    }
+
+    .perna-esquerda {
+      background: #0e0e13;
+      width: 155px;
+      height: 160px;
+
+      position: absolute;
+      left: 0;
+      top: 190px;
+    }
+
+    .perna-direita {
+      background: #0e0e13;
+      width: 155px;
+      height: 160px;
+
+      position: absolute;
+      right: 0;
+      top: 190px;
+
+    }
+
+    .mostrar{
+        background: transparent;
+    }
+
+    .driven{
+        width: 100px;
+    }
+    
+
+    </style>
+
+    <body>
+        <h1> Jogo da Forca</h1>
+        <div class="boneco">
+            <img src="Jogo da Força/darth-vader.png" class="darth-vader" />
+           <div class="parte-do-boneco cabeca"></div>
+            <div class="parte-do-boneco braco-esquerdo"></div>
+            <div class="parte-do-boneco torso"></div>
+            <div class="parte-do-boneco braco-direito"></div>
+            <div class="parte-do-boneco perna-esquerda"></div>
+            <div class="parte-do-boneco perna-direita"></div> 
+          </div>
+
+        <p class="palavra">  </p>
+        <button  onclick="chutar()"> CHUTAR LETRA</button>
+        <img class="driven" src="Jogo da Força/driven.png"> 
+    </body>
+
+    <script>
+
+        const partesDoBoneco = Array.from(document.querySelectorAll(".parte-do-boneco"));
+
+        const chutesEfetuados = [];
+        const palavra = "Oi meu amor passando para dizer eu te amo de uma forma diferente espero ansiosamente a sua volta";
+        let errosCometidos = 0;
+        const quantidadeMaximaErros = partesDoBoneco.length;
+        let acertos = 0;
+
+       mostrarPalavra();
+
+       function mostrarPalavra(){
+       
+        let palavraMostrada = "";
+
+                for(let i = 0; i<palavra.length; i++){
+                  if (chutesEfetuados.includes(palavra[i])){
+                    
+                    palavraMostrada = palavraMostrada + '<span class="letra">' + palavra[i] + '</span>';
+                    console.log(palavraMostrada);
+                  } 
+                 else if (palavra[i] === " "){
+                    palavraMostrada = palavraMostrada + " ";
+                  }
+                  else{
+                    palavraMostrada = palavraMostrada + '<span class="letra">_</span>'
+                  }
+                }
+                document.querySelector(".palavra").innerHTML = palavraMostrada;
+                
+       }
+       
+        function chutar (){
+
+            if(errosCometidos == quantidadeMaximaErros){
+                    alert("Você perdeu!");
+                    return;
+                 }
+
+            const chute = prompt("Qual é o seu chute?");
+
+            if(chutesEfetuados.includes(chute)) {
+                alert("chute já efetuado");
+                return;
+            }
+
+            chutesEfetuados.push(chute);
+            console.log(chutesEfetuados)
+
+            if(acertos == palavra.length) {
+                alert("Parabéns você completou o jogo! \n Clique no ok para atualizar");
+                window.location.reload();
+
+            }
+
+            if(palavra.includes(chute)){
+                mostrarPalavra()
+                acertos = acertos +1;
+                console.log(acertos)
+            }
+             else{
+                 errosCometidos = errosCometidos + 1;
+
+                 for(let i = 0; i< errosCometidos; i++)
+                 {
+                    partesDoBoneco[i].classList.add('mostrar');
+                 }
+
+                 if(errosCometidos === quantidadeMaximaErros){
+                    alert("Você Perdeu!");
+                 }
+                 else{
+                    alert("Errado, tente novamente!");
+                 }
+
+                 
+             }
+
+
+            
+        } 
+        
+    </script>
+
+</html>
